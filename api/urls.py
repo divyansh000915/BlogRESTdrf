@@ -17,6 +17,11 @@ urlpatterns = [
     path('categories/<int:pk>/', views.CategoryDetail.as_view()),
     path('postlike/<int:pk>/', views.LikeListCreate.as_view()),
 
+    path('GetPostByCategory/<str:pk>/', views.GetPostByCategory.as_view()),
+    path('GetPostByMonth/<str:pk>/', views.GetPostByMonth.as_view()),
+
+
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

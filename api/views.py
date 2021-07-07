@@ -182,3 +182,53 @@ class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.PostSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly]
+
+class GetPostByCategory(APIView):
+    permission_classes = (AllowAny,)
+
+    def get(self, request, pk=None):
+        print(request.data)
+
+        response = errorResponseMethod(request, "Post Not Register Yet")
+        pk = pk
+        print(pk)
+        #data = getProductByCategoryView.get_data(self, pk)
+        
+        post = list(Post.objects.filter(categories__id = pk))
+        print(post)
+
+
+        # if data:
+        #     serializer = Product_viewSerializer(data, many=True)
+        serializer = serializers.PostSerializer(post, many=True)
+        if post:
+            #response = successResponseMethod(request, serializer.data)
+            response = serializer.data
+            return Response(response)
+        return Response(response,status=status.HTTP_404_NOT_FOUND)
+
+
+class GetPostByMonth(APIView):
+    permission_classes = (AllowAny,)
+
+    def get(self, request, pk=None):
+        print(request.data)
+
+        response = errorResponseMethod(request, "Post Not Register Yet")
+        pk = pk
+        print(pk)
+        #data = getProductByCategoryView.get_data(self, pk)
+        #q1 = "01-%pk-2021"
+        #q1 = "01-%pk-2021"
+        post = list(Post.objects.filter(created__month=pk))
+        print(post)
+
+
+        # if data:
+        #     serializer = Product_viewSerializer(data, many=True)
+        serializer = serializers.PostSerializer(post, many=True)
+        if post:
+            #response = successResponseMethod(request, serializer.data)
+            response = serializer.data
+            return Response(response)
+        return Response(response,status=status.HTTP_404_NOT_FOUND)

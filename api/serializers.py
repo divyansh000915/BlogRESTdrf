@@ -20,6 +20,9 @@ class PostSerializer(serializers.ModelSerializer):
     comments = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     #like_count = serializers.IntegerField(required=False)
     like_count =serializers.SerializerMethodField('get_likecnt')
+    categories = serializers.SerializerMethodField('get_cat')
+    created = serializers.DateTimeField(format='%m/%d/%Y %H:%M:%S')
+
 
     #image_url = serializers.SerializerMethodField('get_image_url')
 
@@ -34,6 +37,9 @@ class PostSerializer(serializers.ModelSerializer):
     #     return request.build_absolute_uri(obj.image.url)
     def get_likecnt(self,obj):
         return obj.liked_by.all().count()
+
+    def get_cat(self,obj):
+        return list(Category.objects.filter(posts = obj).values('id'))
 
 class UserSerializer(serializers.ModelSerializer):
         
@@ -52,5 +58,8 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ['id', 'body', 'owner', 'post']
+
+
+
 
 
