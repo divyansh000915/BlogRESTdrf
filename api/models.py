@@ -1,6 +1,9 @@
 from django.db import models
 
 # Create your models here.
+def productFile(instance, filename):
+    return '/'.join( ['postimg', str(instance.id), filename] )
+
 
 class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -8,6 +11,10 @@ class Post(models.Model):
     body = models.TextField(blank=True, default='')
     owner = models.ForeignKey('auth.User', related_name='posts', on_delete=models.CASCADE)
 
+    image = models.ImageField(
+        upload_to=productFile,
+        max_length=254, blank=True, null=True)
+    
     class Meta:
         ordering = ['created']
 

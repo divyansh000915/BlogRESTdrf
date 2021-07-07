@@ -3,7 +3,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from api import views
 
 urlpatterns = [
-    path('api-token-auth/', views.AppToken.as_view()),
+    path('api-token-auth/', views.AppToken.as_view()), #to obtain auth-token on login
     path('users/', views.UserList.as_view()),
     path('users/<int:pk>/', views.UserDetail.as_view()),
     path('posts/', views.PostList.as_view()),

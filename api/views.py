@@ -2,6 +2,10 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 
+from rest_framework.exceptions import ParseError
+from rest_framework.parsers import FileUploadParser
+
+
 
 
 from rest_framework import generics
@@ -100,6 +104,14 @@ class PostList(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         print (self.request.user)
         serializer.save(owner=self.request.user)
+
+    # @detail_route(methods=['post'])
+    # def upload_docs(request):
+    #     try:
+    #         file = request.data['file']
+    #     except KeyError:
+    #         raise ParseError('Request has no resource file attached')
+    #     newpost = Post.objects.create(image=file, ....)
 
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
