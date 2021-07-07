@@ -18,10 +18,12 @@ class CategorySerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     comments = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    like_count = serializers.IntegerField(required=False)
+
 
     class Meta:
         model = Post
-        fields = ['id', 'title', 'body', 'owner','comments', 'categories', 'created', 'image']
+        fields = ['id', 'title', 'body', 'owner','comments', 'categories', 'created', 'image', 'liked_by', 'like_count']
 
 class UserSerializer(serializers.ModelSerializer):
         

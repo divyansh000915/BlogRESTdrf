@@ -5,6 +5,8 @@ from rest_framework.authtoken.models import Token
 from rest_framework.exceptions import ParseError
 from rest_framework.parsers import FileUploadParser
 
+from rest_framework.views import APIView
+import json
 
 
 
@@ -118,6 +120,39 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.PostSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly]
+
+
+class LikeListCreate(APIView):
+    def get(self,request,pk):#function to get total number of likes to particular post
+        post = Post.objects.filter(pk=pk) # find which post's likes are to be extracted
+        like_count = post[0].liked_by.all().count()# counts total user likes ,besides my code is wrong
+        helo = {'like_count' : like_count}
+        #serializer = serializers.PostSerializer()
+        #print(serializer)count
+        #if serializer.is_valid():
+        #    return Response(serializer.data)
+        #resp = json.dumps(post[0])
+        data = {"post" : post[0].id, "like_count":like_count}
+        return Response(data)
+
+    def post(self,request,pk):#function to add likes to post
+        # how do I check if user is already liked the post ?
+        likeusers = request.user
+        likepost = Post.objects.get(pk=pk)
+
+        likepost.liked_by.add(likeusers)
+        likepost.save()
+        post = Post.objects.filter(pk=pk) # find which post's likes are to be extracted
+        like_count = post[0].liked_by.all().count()# counts total user likes ,besides my code is wrong
+        print(like_count)
+
+
+        # serializer = PostlikeSerializer(data=request.data)
+        # if serializer.is_valid():
+        #     serializer.save(likeusers,likepost)
+        return Response(serializer.data,status=status.HTTP_201_CREATED)
+        #return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
 # Create your views here.
 
 class CommentList(generics.ListCreateAPIView):

@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+
 
 # Create your models here.
 def productFile(instance, filename):
@@ -14,6 +16,8 @@ class Post(models.Model):
     image = models.ImageField(
         upload_to=productFile,
         max_length=254, blank=True, null=True)
+
+    liked_by = models.ManyToManyField(User)
     
     class Meta:
         ordering = ['created']
