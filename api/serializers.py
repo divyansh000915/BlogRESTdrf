@@ -18,19 +18,22 @@ class CategorySerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     comments = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    like_count = serializers.IntegerField(required=False)
+    #like_count = serializers.IntegerField(required=False)
+    like_count =serializers.SerializerMethodField('get_likecnt')
 
-    image_url = serializers.SerializerMethodField('get_image_url')
+    #image_url = serializers.SerializerMethodField('get_image_url')
 
 
 
     class Meta:
         model = Post
-        fields = ['id', 'title', 'body', 'owner','comments', 'categories', 'created', 'image', 'liked_by', 'like_count', 'image_url']
+        fields = ['id', 'title', 'body', 'owner','comments', 'categories', 'created', 'image', 'liked_by', 'like_count']
     
-    def get_image_url(self, obj):
-        request = self.context.get("request")
-        return request.build_absolute_uri(obj.image.url)
+    # def get_image_url(self, obj):
+    #     request = self.context.get("request")
+    #     return request.build_absolute_uri(obj.image.url)
+    def get_likecnt(self,obj):
+        return obj.liked_by.all().count()
 
 class UserSerializer(serializers.ModelSerializer):
         
