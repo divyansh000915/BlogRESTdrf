@@ -232,3 +232,27 @@ class GetPostByMonth(APIView):
             response = serializer.data
             return Response(response)
         return Response(response,status=status.HTTP_404_NOT_FOUND)
+
+class GetCommentsByPostID(APIView):
+    permission_classes = (AllowAny,)
+    def get(self, request, pk=None):
+        print(request.data)
+
+        response = errorResponseMethod(request, "Post Not Register Yet")
+        pk = pk
+        print(pk)
+        #data = getProductByCategoryView.get_data(self, pk)
+        #q1 = "01-%pk-2021"
+        #q1 = "01-%pk-2021"
+        comments = list(Comment.objects.filter(post__id=pk))
+        print(comments)
+
+
+        # if data:
+        #     serializer = Product_viewSerializer(data, many=True)
+        serializer = serializers.CommentSerializer(comments, many=True)
+        if comments:
+            #response = successResponseMethod(request, serializer.data)
+            response = serializer.data
+            return Response(response)
+        return Response(response,status=status.HTTP_404_NOT_FOUND)

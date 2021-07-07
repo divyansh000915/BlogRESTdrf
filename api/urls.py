@@ -19,6 +19,8 @@ urlpatterns = [
 
     path('GetPostByCategory/<str:pk>/', views.GetPostByCategory.as_view()),
     path('GetPostByMonth/<str:pk>/', views.GetPostByMonth.as_view()),
+    path('GetCommentsByPostID/<str:pk>/',views.GetCommentsByPostID.as_view()),
+
 
 
 
