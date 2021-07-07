@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 # Create your models here.
-def productFile(instance, filename):
+def nameFile(instance, filename):
     return '/'.join( ['postimg', str(instance.id), filename] )
 
 
@@ -14,7 +14,7 @@ class Post(models.Model):
     owner = models.ForeignKey('auth.User', related_name='posts', on_delete=models.CASCADE)
 
     image = models.ImageField(
-        upload_to=productFile,
+        upload_to=nameFile,
         max_length=254, blank=True, null=True)
 
     liked_by = models.ManyToManyField(User)

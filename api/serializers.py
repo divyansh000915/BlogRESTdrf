@@ -20,10 +20,17 @@ class PostSerializer(serializers.ModelSerializer):
     comments = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     like_count = serializers.IntegerField(required=False)
 
+    image_url = serializers.SerializerMethodField('get_image_url')
+
+
 
     class Meta:
         model = Post
-        fields = ['id', 'title', 'body', 'owner','comments', 'categories', 'created', 'image', 'liked_by', 'like_count']
+        fields = ['id', 'title', 'body', 'owner','comments', 'categories', 'created', 'image', 'liked_by', 'like_count', 'image_url']
+    
+    def get_image_url(self, obj):
+        request = self.context.get("request")
+        return request.build_absolute_uri(obj.image.url)
 
 class UserSerializer(serializers.ModelSerializer):
         

@@ -2,6 +2,9 @@ from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 from api import views
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('api-token-auth/', views.AppToken.as_view()), #to obtain auth-token on login
     path('users/', views.UserList.as_view()),
@@ -15,6 +18,6 @@ urlpatterns = [
     path('postlike/<int:pk>/', views.LikeListCreate.as_view()),
 
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns = format_suffix_patterns(urlpatterns)
