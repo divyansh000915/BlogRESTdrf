@@ -14,3 +14,6 @@
     e. Notification feature on updates to entities like Incident/Blog on key events.
     f. Use Azure cloud feature.
     g. Generate pdf file output.
+    
+    
+To check the documentation - Go to https://docs.google.com/document/d/1q5DoPd8Os6y14SNrkM_WtLT8KNyMvL6SpYybfyIwNoY/edit
